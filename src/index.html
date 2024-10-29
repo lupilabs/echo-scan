@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EchoScan</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous">
+  <link href="/styles.css" rel="stylesheet"> <!-- Custom CSS file -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body class="bg-gray-100 font-sans h-screen overflow-hidden">
+
+  <!-- Toolbar Section -->
+  <div class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-xl font-semibold">EchoScan</h1>
+    <input type="file" id="fileUpload" accept=".xml" class="text-gray-700 border border-gray-300 rounded-md px-3 py-2" />
+    <input type="text" placeholder="Search..." class="border rounded px-3 py-1" x-model="search">
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="flex flex-col h-full">
+
+    <!-- List View Section -->
+    <div class="flex-grow overflow-y-scroll bg-white" id="listView">
+      <table id="dataTable" class="table-fixed w-full bg-white rounded-lg shadow-lg border-collapse">
+        <thead class="bg-blue-600 text-white sticky top-0">
+          <tr>
+            <th class="px-4 py-2 w-1/12">ID</th>
+            <th class="px-4 py-2 w-2/12">Time</th>
+            <th class="px-4 py-2 w-4/12">URL/Host</th>
+            <th class="px-4 py-2 w-1/12">Method</th>
+            <th class="px-4 py-2 w-2/12 truncate">Request</th>
+            <th class="px-4 py-2 w-2/12 truncate">Response</th>
+            <th class="px-4 py-2 w-1/12">Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+<!-- Detailed View Section -->
+<div id="detailsPane" class="flex flex-grow overflow-hidden p-4 bg-gray-100 border-t border-gray-300">
+  <!-- Request Details Section (Left Half) -->
+  <div class="w-1/2 pr-2 overflow-y-auto">
+    <h2 class="text-lg font-semibold">Request Headers</h2>
+    <pre class="whitespace-pre-wrap"></pre>
+    <h2 class="text-lg font-semibold mt-4">Request Body</h2>
+    <pre class="whitespace-pre-wrap"></pre>
+  </div>
+
+  <!-- Response Details Section (Right Half) -->
+  <div class="w-1/2 pl-2 overflow-y-auto">
+    <h2 class="text-lg font-semibold">Response Headers</h2>
+    <pre class="whitespace-pre-wrap"></pre>
+    <h2 class="text-lg font-semibold mt-4">Response Body</h2>
+    <pre class="whitespace-pre-wrap"></pre>
+  </div>
+</div>
+
+  </div>
+
+  <script src="/bundle.js" defer></script>
+</body>
+</html>
