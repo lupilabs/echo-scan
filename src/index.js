@@ -28,14 +28,17 @@ async function getCountryInfo(ip) {
   }
 }
 
+// Track the currently selected row
+let selectedRow = null;
+
 async function createRow(item, index) {
     const row = document.createElement("tr");
     row.classList.add("hover:bg-gray-200", "cursor-pointer");
-  
-    // Check the cache first to avoid redundant API calls
+
     const countryInfo = geoIpCache[item.ip] || await getCountryInfo(item.ip);
-  
-    // Set row content with the tooltip
+    const requestPreview = item.requestBody ? item.requestBody.slice(0, 50) : "No request content";
+    const responsePreview = item.responseBody ? item.responseBody.slice(0, 50) : "No response content";
+
     row.innerHTML = `
       <td class="p-2">${index + 1}</td>
       <td class="p-2">${item.time}</td>
@@ -45,16 +48,27 @@ async function createRow(item, index) {
         </span>
       </td>
       <td class="p-2">${item.method}</td>
-      <td class="p-2">${item.request.slice(0, 50)}...</td>
-      <td class="p-2">${item.response.slice(0, 50)}...</td>
+      <td class="p-2">${requestPreview}...</td>
+      <td class="p-2">${responsePreview}...</td>
       <td class="p-2">${item.status}</td>
     `;
-  
-    // Add click event to display details
-    row.onclick = () => renderDetails(item);
-  
+
+    // Click event to highlight the row and render details
+    row.onclick = () => {
+        // Remove "selected" class from the previously selected row
+        if (selectedRow) {
+            selectedRow.classList.remove("selected");
+        }
+        // Apply "selected" class to the clicked row
+        row.classList.add("selected");
+        selectedRow = row; // Update the selected row reference
+
+        renderDetails(item);
+    };
+
     return row;
-  }
+}
+
   
   async function renderTable() {
     const tableBody = document.querySelector("#dataTable tbody");

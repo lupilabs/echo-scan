@@ -27,3 +27,8 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+/* Highlight background for selected row */
+tr.selected {
+  background-color: #e0f7fa; /* Light blue for selected row */
+}
