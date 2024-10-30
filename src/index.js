@@ -89,15 +89,17 @@ let startIndex = 0;
 let dataItems = [];
 
   
-  function renderDetails(item) {
-    const detailsPane = document.getElementById("detailsPane");
-    const [reqHeader, reqBody, resHeader, resBody] = detailsPane.querySelectorAll("pre");
-  
-    reqHeader.textContent = item.requestHeaders || "No headers";
-    reqBody.textContent = item.request || "No request content";
-    resHeader.textContent = item.responseHeaders || "No headers";
-    resBody.textContent = item.response || "No response content";
-  }
+function renderDetails(item) {
+  const detailsPane = document.getElementById("detailsPane");
+  const [reqHeader, reqBody, resHeader, resBody] = detailsPane.querySelectorAll("pre");
+
+  // Display separated headers and bodies
+  reqHeader.textContent = item.requestHeaders || "No headers";
+  reqBody.textContent = item.requestBody || "No request content";
+  resHeader.textContent = item.responseHeaders || "No headers";
+  resBody.textContent = item.responseBody || "No response content";
+}
+
   
   
 

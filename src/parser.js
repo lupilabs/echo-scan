@@ -11,6 +11,7 @@ function parseXML(xml) {
     const requestContent = decodeBase64Content(item.getElementsByTagName("request")[0]);
     const responseContent = decodeBase64Content(item.getElementsByTagName("response")[0]);
 
+    // Use parseHeadersAndBody to split requests and responses
     const { headers: requestHeaders, body: requestBody } = parseHeadersAndBody(requestContent);
     const { headers: responseHeaders, body: responseBody } = parseHeadersAndBody(responseContent);
 
@@ -36,12 +37,30 @@ function parseXML(xml) {
 
 // Helper function to split headers and body
 function parseHeadersAndBody(content) {
-  const [headers, ...bodyLines] = content.split("\n\n");
-  return {
-    headers: headers || "No headers",
-    body: bodyLines.join("\n") || "No content",
-  };
+  // Check for CRLF first (\r\n\r\n), then LF (\n\n)
+  let delimiterIndex = content.indexOf("\r\n\r\n");
+  let offset = 4; // for CRLF delimiter
+  
+  if (delimiterIndex === -1) {
+    // Fall back to LF if CRLF not found
+    delimiterIndex = content.indexOf("\n\n");
+    offset = 2; // for LF delimiter
+  }
+
+  if (delimiterIndex !== -1) {
+    return {
+      headers: content.slice(0, delimiterIndex).trim(),
+      body: content.slice(delimiterIndex + offset).trim(),
+    };
+  } else {
+    return {
+      headers: content.trim(),
+      body: "No content",
+    };
+  }
 }
+
+
 
 function decodeBase64Content(element) {
   if (element && element.getAttribute("base64") === "true") {
